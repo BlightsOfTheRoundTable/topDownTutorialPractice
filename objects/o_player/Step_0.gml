@@ -1,0 +1,44 @@
+// player input
+key_up = keyboard_check(vk_up);
+key_down = keyboard_check(vk_down);
+key_left = keyboard_check(vk_left);
+key_right = keyboard_check(vk_right);
+
+// movement direction
+input_direction = point_direction(0, 0, (key_right - key_left), (key_down - key_up));
+
+// detect moving
+var moving = ((key_right - key_left != 0) || (key_down - key_up != 0))
+
+// calculate movement
+hsp = lengthdir_x(walk_speed * moving, input_direction);
+vsp = lengthdir_y(walk_speed * moving, input_direction);
+
+// move
+x += hsp;
+y += vsp;
+
+switch (input_direction)
+{
+	case 0: dir_facing = 0; break;	
+	case 90: dir_facing = 1; break;	
+	case 180: dir_facing = 2; break;	
+	case 270: dir_facing = 3; break;	
+}
+
+if (moving) 
+{
+	switch (dir_facing)
+	{
+		case 0: sprite_index = s_player_side; break;
+		case 1: sprite_index = s_player_up; break;
+		case 2: sprite_index = s_player_side; break;
+		case 3: sprite_index = s_player_down; break;
+	}
+}
+
+// set speed
+image_speed = moving;
+
+// reset to idle
+if (image_speed == 0) image_index = 0;
