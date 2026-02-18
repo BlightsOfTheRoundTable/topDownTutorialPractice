@@ -18,16 +18,18 @@ vsp = lengthdir_y(walk_speed * moving, input_direction);
 x += hsp;
 y += vsp;
 
-switch (input_direction)
-{
-	case 0: dir_facing = 0; break;	
-	case 90: dir_facing = 1; break;	
-	case 180: dir_facing = 2; break;	
-	case 270: dir_facing = 3; break;	
-}
+
 
 if (moving) 
 {
+	switch (round(input_direction))
+	{
+		case 0: dir_facing = 0; break;	
+		case 90: dir_facing = 1; break;	
+		case 180: dir_facing = 2; break;	
+		case 270: dir_facing = 3; break;	
+	}
+	
 	switch (dir_facing)
 	{
 		case 0: sprite_index = s_player_side; break;
@@ -40,5 +42,14 @@ if (moving)
 // set speed
 image_speed = moving;
 
-// reset to idle
-if (image_speed == 0) image_index = 0;
+if (input_direction > 0) show_debug_message(dir_facing);
+
+// FLIP LOGIC: 1 for right (dir 0), -1 for left (dir 2)
+if (dir_facing == 2) {
+    image_xscale = 1;
+} else if (dir_facing == 0) {
+    image_xscale = -1;
+}
+
+// Reset animation to first frame when idle
+if (!moving) image_index = 0;
