@@ -3,6 +3,7 @@ key_up = false;
 key_down = false;
 key_left = false;
 key_right = false;
+key_harvest = false;
 
 // movement
 hsp = 0;
